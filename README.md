@@ -25,9 +25,9 @@ This project automates the process by using an NFC tag to trigger a Home Assista
 ## Project Structure
 
 *   `log_hydration.py`: The core Python script that interacts with the Garmin Connect API.
-*   `new_app.py`: A Flask web server that exposes an endpoint to trigger the hydration logging.
+*   `run_garmin_flask_app.py`: A Flask web server that exposes an endpoint to trigger the hydration logging.
+*   `app.py`: CLI helper used during early experiments (not required for the NFC workflow).
 *   `requirements.txt`: Project dependencies.
-*   `.env.example`: An example file for storing your Garmin Connect credentials.
 
 ## Prerequisites
 
@@ -54,17 +54,21 @@ This project automates the process by using an NFC tag to trigger a Home Assista
 ## Configuration
 
 1.  **Create a `.env` file:**
-    Copy the `.env.example` file to `.env` and add your Garmin Connect credentials:
+    Create a `.env` file in the project root (there is no template committed yet) and add your Garmin Connect credentials:
     ```
-    GARMIN_EMAIL=your_email@example.com
+    GARMIN_USERNAME=your_email@example.com
     GARMIN_PASSWORD=your_password
     ```
 
-2.  **Start the Flask server:**
+2.  **Start the DEV Flask server:**
     ```bash
-    python new_app.py
+    python run_garmin_flask_app.py
     ```
     The server will run on `http://<your-ip-address>:5001`.
+
+    ```bash
+    gunicorn --bind 0.0.0.0:5001 run_garmin_flask_app:hydrate_command_flask_app
+    ```
 
 3.  **Configure Home Assistant:**
     Add the following `rest_command` to your `configuration.yaml` file in Home Assistant:

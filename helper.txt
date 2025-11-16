@@ -1,0 +1,37 @@
+curl -X POST http://192.168.1.138:5001/log_hydration
+
+curl -X POST http://127.0.0.1:5001/log_hydration
+
+        Total {{ hydration_response.json.total }}ml water logged, {{
+        hydration_response.json.remaining }}ml remaining.
+
+{
+  "added": 250,
+  "goal": 3656.0,
+  "remaining": 406.0,
+  "status": "success",
+  "total": 3250.0
+}
+
+
+
+message: >-
+  {% set j = (hydration_response.content | default('{}') | from_json) %}
+  {% set total = (j.get('total') | default(0)) | int %}
+  {% set remaining = j.get('remaining') %}
+  Total {{ total }} ml water logged, {{ remaining }} ml remaining.
+  (status {{ hydration_response.status | default('unknown') }})
+
+
+
+  {% set j = (hydration_response.content | default('{}') | from_json) %}
+  {% set total = (j.get('total') | default(0)) | int %}
+  {% set remaining = (j.get('remaining') | default('?')) %}
+  {% set pct = goal > 0 and ((total / goal) * 100) or 0 %}
+  Total {{ total }} ml water logged today · {{ remaining }} ml balance · {{ pct|round(0) }}% of goal.
+  (status {{ hydration_response.status | default('unknown') }})
+
+
+  Added {{ added }} ml · Total {{ total }} ml · Goal {{ goal }} ml ·
+  Remaining {{ remaining }} ml · {{ pct|round(0) }}% of goal.
+  (status {{ hydration_response.status | default('unknown') }})
