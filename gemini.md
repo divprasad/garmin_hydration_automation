@@ -7,9 +7,9 @@ The main objective of this project is to create a simple way to log 250ml of wat
 ## Current Implementation
 
 *   **`log_hydration.py`**: A Python script that uses the `garminconnect` library to handle the authentication and logging of hydration. It reads credentials securely from a `.env` file.
-*   **`new_app.py`**: A lightweight Flask web application that exposes a single endpoint (`/log_hydration`). When a POST request is made to this endpoint, it calls the `log_hydration` function from `log_hydration.py` and returns the current hydration status as a JSON response. This allows other services, like Home Assistant, to trigger the hydration logging.
+*   **`run_garmin_flask_app.py`**: A lightweight Flask web application that exposes a single endpoint (`/log_hydration`). When a POST request is made to this endpoint, it calls the `log_hydration` function from `log_hydration.py` and returns the current hydration status as a JSON response. This allows other services, like Home Assistant, to trigger the hydration logging.
 *   **`requirements.txt`**: Lists the project dependencies, including `Flask` and `garminconnect`.
-*   **Virtual Environment (`venv`)**: Isolates project dependencies.
+*   **Virtual Environment (`garmin_env`)**: Isolates project dependencies.
 
 ## Home Assistant Integration
 
@@ -17,15 +17,15 @@ The script is triggered from a Home Assistant automation. Here’s how to set it
 
 ### 1. Exposing the Script to Home Assistant
 
-We are using a web service to expose the script to Home Assistant. The `new_app.py` Flask application runs on your network and listens for POST requests on the `/log_hydration` endpoint.
+We are using a web service to expose the script to Home Assistant. The `run_garmin_flask_app.py` Flask application runs on your network and listens for POST requests on the `/log_hydration` endpoint.
 
 To start the service, run the following command in your project directory:
 
 ```bash
-/path/to/your/venv/bin/python new_app.py
+/path/to/your/garmin_env/bin/python run_garmin_flask_app.py
 ```
 
-Make sure to replace `/path/to/your/venv/bin/python` with the actual path to the Python interpreter in your virtual environment. The service will run on `http://<your-ip-address>:5001`.
+Make sure to replace `/path/to/your/garmin_env/bin/python` with the actual path to the Python interpreter in your virtual environment. The service will run on `http://<your-ip-address>:5001`.
 
 ### 2. Home Assistant Automation
 
@@ -46,7 +46,7 @@ rest_command:
     # e.g. {{ trigger.event.data.response }}
 ```
 
-Replace `<your-ip-address>` with the IP address of the machine running the `new_app.py` script. After adding this, restart Home Assistant to apply the changes.
+Replace `<your-ip-address>` with the IP address of the machine running the `run_garmin_flask_app.py` script. After adding this, restart Home Assistant to apply the changes.
 
 #### b. Create the Automation in Home Assistant
 

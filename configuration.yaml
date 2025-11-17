@@ -13,6 +13,6 @@ scene: !include scenes.yaml
 
 rest_command:
   log_hydration:
-   url: 'http://127.0.0.1:5001/log_hydration'
+    url: 'http://127.0.0.1:5001/log_hydration'
     method: 'POST'
     content_type: 'application/json'

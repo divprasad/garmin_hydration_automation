@@ -4,7 +4,7 @@
 ![GitHub stars](https://img.shields.io/github/stars/divprasad/garmin_hydration_automation?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/divprasad/garmin_hydration_automation?style=social)
 
-A simple and effective way to log your water intake to Garmin Connect using a Home Assistant automation triggered by an NFC tag. This project provides a seamless, one-tap solution to keep your hydration levels updated without manually entering data into the Garmin Connect app.
+A simple and effective way to log your water intake to Garmin Connect using a Home Assistant automation triggered by an NFC tag. A seamless, one-tap solution to keep your hydration levels updated without manually entering data into the Garmin Connect app.
 
 ## The Problem
 
@@ -46,8 +46,8 @@ This project automates the process by using an NFC tag to trigger a Home Assista
 
 2.  **Create a virtual environment and install dependencies:**
     ```bash
-    python3 -m venv venv
-    source venv/bin/activate
+    python3 -m venv garmin_env
+    source garmin_env/bin/activate
     pip install -r requirements.txt
     ```
 
@@ -66,12 +66,6 @@ This project automates the process by using an NFC tag to trigger a Home Assista
     ```
     The server will run on `http://<your-ip-address>:5001`.
 
-
-    replace with 0.0.0.0 to listen from all IPs
-    ```bash
-    gunicorn --bind 192.168.1.64:5001 run_garmin_flask_app:hydrate_command_flask_app
-    ```
-
 3.  **Configure Home Assistant:**
     Add the following `rest_command` to your `configuration.yaml` file in Home Assistant:
     ```yaml
@@ -82,6 +76,11 @@ This project automates the process by using an NFC tag to trigger a Home Assista
         content_type: 'application/json'
     ```
     Replace `<your-ip-address>` with the IP address of the machine running the Flask server. Restart Home Assistant to apply the changes.
+
+4. **Deploy the Flask server:**
+    ```bash
+    gunicorn --bind 0.0.0.0:5001 run_garmin_flask_app:hydrate_command_flask_app
+    ```
 
 ## Usage
 
