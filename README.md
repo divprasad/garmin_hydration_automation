@@ -66,8 +66,10 @@ This project automates the process by using an NFC tag to trigger a Home Assista
     ```
     The server will run on `http://<your-ip-address>:5001`.
 
+
+    replace with 0.0.0.0 to listen from all IPs
     ```bash
-    gunicorn --bind 0.0.0.0:5001 run_garmin_flask_app:hydrate_command_flask_app
+    gunicorn --bind 192.168.1.64:5001 run_garmin_flask_app:hydrate_command_flask_app
     ```
 
 3.  **Configure Home Assistant:**
