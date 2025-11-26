@@ -3,4 +3,3 @@ venv/ garmin_env/
 
 # Ignore .env file
 .env
-.geminiignore
